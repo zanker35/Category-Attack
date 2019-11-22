@@ -25,10 +25,6 @@ from .base_detector_attack_release import BaseDetector
 class CtdetDetector(BaseDetector):
     def __init__(self, opt):
         super(CtdetDetector, self).__init__(opt)
-        self.avg_range = []
-        self.avg_change = []
-        self.start_num = 0
-        self.imgs_count = 0
 
     def process(self, images, return_time=False):
 
@@ -176,15 +172,6 @@ class CtdetDetector(BaseDetector):
         r_tot = x_i - images
 
         ################################################################################
-
-        adv_range = (torch.sqrt(
-            torch.mean((x_i.data - images_source.data).mul(x_i.data - images_source.data))) / 3.4602).to(
-            'cpu').numpy()
-        self.avg_range.append(adv_range)
-        self.avg_change.append(img_changed)
-        self.imgs_count += 1
-        print('\n\n', 'adv_range:', adv_range, 'avg_avg_range:%.4f' % (sum(self.avg_range)/self.imgs_count,))
-        print('\n', 'img_change:', img_changed, 'avg_img_change:%.4f' % (sum(self.avg_change)/self.imgs_count,), '\n\n')
 
         output = self.model(x_i)[-1]
         hm = output['hm'].sigmoid_()
