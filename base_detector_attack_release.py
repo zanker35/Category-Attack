@@ -128,29 +128,6 @@ class BaseDetector(object):
             adv_save = adv_images[0].detach().cpu().numpy().transpose(1, 2, 0)
             adv_save = ((adv_save * self.std + self.mean) * 255).astype(np.uint8)
 
-            save = True
-            # save adv
-            if save:
-
-                noise_save = noise[0].detach().cpu().numpy().transpose(1, 2, 0)
-                noise_save = ((noise_save * self.std + self.mean) * 255).astype(np.uint8)
-
-                # coco
-                # img_name = str(image_or_path_or_tensor['name'].to('cpu').item()).zfill(12)
-                # pascal
-                # img_name = str(image_or_path_or_tensor['name'].to('cpu').item()).zfill(6)
-                # demo
-                img_name = image_or_path_or_tensor[12:-4]
-
-                save_dir = '../adv_save_png/dag2'
-                img_name = save_dir + '/' + img_name
-                print(img_name)
-
-                #plt.imsave(img_name+'.jpg', cv2.cvtColor(adv_save, cv2.COLOR_BGR2RGB))
-                #plt.imsave(img_name+'_n.jpg', cv2.cvtColor(noise_save, cv2.COLOR_BGR2RGB))
-            else:
-                img_name = ''
-
             torch.cuda.synchronize()
             net_time += forward_time - pre_process_time
             decode_time = time.time()
@@ -173,7 +150,7 @@ class BaseDetector(object):
         tot_time += end_time - start_time
 
         if self.opt.debug >= 1:
-            self.show_results(debugger, adv_save, results, img_name)
+            self.show_results(debugger, adv_save, results)
 
         return {'results': results, 'tot': tot_time, 'load': load_time,
                 'pre': pre_time, 'net': net_time, 'dec': dec_time,
