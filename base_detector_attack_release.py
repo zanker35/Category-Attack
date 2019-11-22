@@ -123,8 +123,6 @@ class BaseDetector(object):
 
             output, dets, forward_time, adv_images, noise = self.process(images, return_time=True)
 
-            noise = noise * 10
-
             adv_save = adv_images[0].detach().cpu().numpy().transpose(1, 2, 0)
             adv_save = ((adv_save * self.std + self.mean) * 255).astype(np.uint8)
 
