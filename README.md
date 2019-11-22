@@ -12,4 +12,7 @@ The paper of Category-wise Attack has been submit to CVPR 2020.
 
 At first, you need to install the CenterNet and run successfully on MS-COCO and PascalVOC.
 > Objects as Points
+
+> Xingyi Zhou, Dequan Wang, Philipp Krähenbühl,
+
 > https://github.com/xingyizhou/CenterNet
